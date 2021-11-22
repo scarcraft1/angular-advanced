@@ -16,6 +16,10 @@
     "importHelpers": true,
     "target": "es2017",
     "module": "es2020",
+    "paths": {
+      "@shared": [ "./src/app/shared" ],
+      "@core": [ "./src/app/core/core.module.ts" ],
+    },
     "lib": [
       "es2018",
       "dom"

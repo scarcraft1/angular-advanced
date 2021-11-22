@@ -1,16 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { DatepickerModule } from '@shared';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
+import { COMPONENTS } from './components';
+import { CoreModule } from './core/core.module';
+import { DIRECTIVES } from './directives';
+import { PIPES } from './pipes';
+import { ROUTES } from './routes';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ...PIPES,
+    ...ROUTES,
+    ...COMPONENTS,
+    ...DIRECTIVES,
   ],
   imports: [
+    CoreModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
