@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CoreModule } from '@core';
 import { DatepickerModule } from '@shared';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { COMPONENTS } from './components';
-import { CoreModule } from './core/core.module';
 import { DIRECTIVES } from './directives';
 import { PIPES } from './pipes';
 import { ROUTES } from './routes';
+
 
 @NgModule({
   declarations: [

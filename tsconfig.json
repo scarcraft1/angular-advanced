@@ -19,6 +19,7 @@
     "paths": {
       "@shared": [ "./src/app/shared" ],
       "@core": [ "./src/app/core/core.module.ts" ],
+      "@modules" : [ "./src/app/modules"]
     },
     "lib": [
       "es2018",

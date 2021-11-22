@@ -1,0 +1,6 @@
+<p>list works!</p>
+<div [ngSwitch]="userRole">
+  <div *ngSwitchCase="roles.admin">Admin</div>
+  <div *ngSwitchCase="roles.invitado">Guest</div>
+  <div *ngSwitchDefault>Unknown</div>
+</div>
