@@ -4,3 +4,7 @@
   <div *ngSwitchCase="roles.invitado">Guest</div>
   <div *ngSwitchDefault>Unknown</div>
 </div>
+
+<div *ngFor="let user of usuarios">
+  {{ user | json}}
+</div>

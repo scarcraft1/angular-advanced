@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UsuariosService } from '../../services';
 import { Rol } from '../../types';
 import { UserToUsuario } from '../../utils';
 
@@ -17,14 +18,10 @@ export class ListComponent implements OnInit {
 
   public usuarios: any[] = [];
 
-  private service: any;
-
-  constructor() { }
+  constructor(private service: UsuariosService) { }
 
   ngOnInit(): void {
-    (this.service.getUsers() as Observable<unknown[]>)
-      .pipe(map(users => users.map(i => UserToUsuario<any>(i))))
-      .subscribe(usuarios => this.usuarios = usuarios);
+    this.service.loadUsers().subscribe(users => this.usuarios = users);
   }
 
 }
