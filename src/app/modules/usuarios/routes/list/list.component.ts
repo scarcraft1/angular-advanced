@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { UsuariosService } from '../../services';
 import { Rol } from '../../types';
-import { UserToUsuario } from '../../utils';
 
 @Component({
   selector: 'app-list',

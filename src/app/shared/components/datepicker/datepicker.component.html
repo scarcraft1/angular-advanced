@@ -1,0 +1,8 @@
+<div *ngIf="true; else hola" [ngClass]="true ? 'rojo' : 'azul'">Hola</div>
+<ng-container [ngTemplateOutlet]="templateRef || hola">
+  adios
+</ng-container>
+<ng-template #hola let-ctx>
+  <h1>Hola {{ctx | json}}</h1>
+</ng-template>
+<div #placeHolder>PlaceHolder</div>
