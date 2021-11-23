@@ -19,4 +19,12 @@ export class UsuariosService {
     return this.loadUsers()
       .pipe(map(users => users.filter(u => u.id === id)));
   }
+
+  addUser(user: {id: number, name: string, email: string}) {
+    this.usuarios$.next(this.usuarios$.getValue().concat(user));
+  }
+
+  editUser(id: number, user: {id: number, name: string, email: string}) {
+    this.usuarios$.next(this.usuarios$.getValue().map(i => i.id === id ? user : i));
+  }
 }

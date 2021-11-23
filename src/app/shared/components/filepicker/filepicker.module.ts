@@ -9,6 +9,7 @@ import { FilepickerComponent } from './filepicker.component';
   ],
   imports: [
     CoreModule
-  ]
+  ],
+  exports: [ FilepickerComponent ]
 })
 export class FilepickerModule { }

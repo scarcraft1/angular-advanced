@@ -17,6 +17,18 @@ export class ListComponent implements OnInit {
 
   constructor(private service: UsuariosService) { }
 
+  trackById(user: any): number {
+    return user.id;
+  }
+
+  addUser() {
+    this.service.addUser({ id: this.usuarios.length + 1, name: `${Math.random() * 1000}`, email: ''});
+  }
+
+  editUser(id: number) {
+    this.service.editUser(id, { id, name: `${Math.random() * 1000}`, email: ''});
+  }
+
   ngOnInit(): void {
     this.service.loadUsers().subscribe(users => this.usuarios = users);
   }

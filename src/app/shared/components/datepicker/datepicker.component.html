@@ -1,8 +1,8 @@
 <div *ngIf="true; else hola" [ngClass]="true ? 'rojo' : 'azul'">Hola</div>
-<ng-container [ngTemplateOutlet]="templateRef || hola">
+<ng-container *ngFor="let i of [1,2,3,4,5]" [ngTemplateOutlet]="hola" [ngTemplateOutletContext]="i">
   adios
 </ng-container>
-<ng-template #hola let-ctx>
-  <h1>Hola {{ctx | json}}</h1>
+<ng-template #hola let-i>
+  <h1>Hola {{i | json}}</h1>
 </ng-template>
 <div #placeHolder>PlaceHolder</div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CoreModule } from '@core';
+import { FilepickerModule } from '@shared';
 import { ROUTES } from './routes';
 import { UsuariosRoutingModule } from './usuarios.routing';
 
@@ -7,6 +8,7 @@ import { UsuariosRoutingModule } from './usuarios.routing';
   declarations: [ ...ROUTES ],
   imports: [
     CoreModule,
+    FilepickerModule,
     UsuariosRoutingModule
   ]
 })

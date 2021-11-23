@@ -5,7 +5,7 @@ const users = [{
 },
 {
   "id": 2,
-  "name": "Óscar",
+  "name": "Pepito",
   "email": "ovillas@hiberus.com"
 }]
 ;
