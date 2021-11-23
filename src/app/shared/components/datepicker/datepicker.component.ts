@@ -25,5 +25,8 @@ export class DatepickerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.placeholder?.nativeElement.setAttribute('style', 'background-color: red;');
+    const div = this.renderer.createElement('div');
+    this.renderer.appendChild(div, this.renderer.createText('hola'));
+    this.renderer.appendChild(this.placeholder?.nativeElement, div);
   }
 }
