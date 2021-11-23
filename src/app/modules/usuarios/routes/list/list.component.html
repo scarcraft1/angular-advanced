@@ -11,6 +11,6 @@
 <app-user-list-item
   [user]="user"
   *ngFor="let user of usuarios; trackBy: trackById"
-  [appHighlight]="filter"
+  [appTooltip]="user.name"
 >
 </app-user-list-item>

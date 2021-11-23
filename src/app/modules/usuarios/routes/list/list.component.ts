@@ -24,7 +24,7 @@ export class ListComponent implements OnInit {
   }
 
   addUser() {
-    this.service.addUser({ id: this.usuarios.length + 1, name: `${Math.random() * 1000}`, email: ''});
+    this.service.addUser({ id: this.usuarios.length + 1, name: `${Math.random() * 1000}`, email: '' });
   }
 
   ngOnInit(): void {
