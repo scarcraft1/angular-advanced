@@ -1,0 +1,4 @@
+{{ user | json }}
+<input [(ngModel)]="user.name" #name="ngModel" />
+<button type="button" (click)="editUser(user.id)">EditUser</button>
+<app-filepicker [ref]="user.name" [vector]="[5, 3, 7, 4, 10]"></app-filepicker>

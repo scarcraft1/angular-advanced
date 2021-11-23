@@ -11,6 +11,8 @@ export class ListComponent implements OnInit {
 
   public roles: typeof Rol = Rol;
 
+  public filter: string = '';
+
   public userRole: Rol = Rol.superadmin;
 
   public usuarios: any[] = [];
@@ -25,12 +27,8 @@ export class ListComponent implements OnInit {
     this.service.addUser({ id: this.usuarios.length + 1, name: `${Math.random() * 1000}`, email: ''});
   }
 
-  editUser(id: number) {
-    this.service.editUser(id, { id, name: `${Math.random() * 1000}`, email: ''});
-  }
-
   ngOnInit(): void {
-    this.service.loadUsers().subscribe(users => this.usuarios = users);
+    // this.service.loadUsers().subscribe(users => this.usuarios = users);
   }
 
 }

@@ -1,14 +1,16 @@
 <p>list works!</p>
-<div [ngSwitch]="userRole">
+<div [ngSwitch]="userRole" appHotCounter>
   <div *ngSwitchCase="roles.admin">Admin</div>
   <div *ngSwitchCase="roles.invitado">Guest</div>
   <div *ngSwitchDefault>Unknown</div>
 </div>
 
 <button type="button" (click)="addUser()">Añadir usuario</button>
-<div *ngFor="let user of usuarios; trackBy: trackById">
-  {{ user | json}}
-  <input [(ngModel)]="user.name" #name="ngModel">
-  <button type="button" (click)="editUser(user.id)">EditUser</button>
-  <app-filepicker [ref]="user.name" [vector]="[5,3,7,4,10]"></app-filepicker>
-</div>
+<input type="text" [(ngModel)]="filter" />
+<ng-container appFetch="users" (users$)="usuarios = $event"></ng-container>
+<app-user-list-item
+  [user]="user"
+  *ngFor="let user of usuarios; trackBy: trackById"
+  [appHighlight]="filter"
+>
+</app-user-list-item>
