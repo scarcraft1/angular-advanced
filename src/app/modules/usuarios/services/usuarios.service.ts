@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
@@ -7,11 +8,12 @@ import { users } from '../db/usuarios.db';
 export class UsuariosService {
   private usuarios$ = new BehaviorSubject<any[]>([]);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.usuarios$.next(users);
   }
 
   loadUsers() {
+    return this.http.get<any[]>('https://jsonplaceholder.typicode.com/users');
     return this.usuarios$.asObservable();
   }
 

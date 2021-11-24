@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PaginatePipe } from '@shared';
+import { ActivatedRoute } from '@angular/router';
+import { of, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { UsuariosService } from '../../services';
 
 @Component({
   selector: 'app-edit',
@@ -8,33 +11,31 @@ import { PaginatePipe } from '@shared';
 })
 export class EditComponent implements OnInit {
 
-  public cosas: number[] = Array.from(new Array(200)).map((_, idx) => idx);
+  public user: any;
 
-  public get misCosas() {
-    return this.paginate.transform(this.cosas, this.page, 10, 'get');
-  }
-
-  public page = 0;
-
-  constructor(private paginate: PaginatePipe<number>) { }
-
-  public otrasCosas() {
-    console.count('otrasCosas');
-    return this.cosas.slice(this.page * 10, (this.page + 1) * 10);
-  }
-
-  public otrasCosas2(cosas: number[]) {
-    console.count('otrasCosas2');
-    return cosas.slice(this.page * 10, (this.page + 1) * 10);
-  }
+  constructor(private route: ActivatedRoute, private service: UsuariosService) { }
 
   ngOnInit(): void {
-    console.log('edit', this.cosas);
+    this.route.paramMap
+      .pipe(
+        map(params => Number(params.get('id'))),
+        switchMap(id => this.findUser(id)))
+      .subscribe(user => this.user = user);
   }
 
-  changeValue() {
-    this.cosas[5] = Math.random();
-    console.log(this.cosas[5]);
-  }
 
+  private findUser(id: number) {
+    return this.service.loadUser(id)
+      .pipe(
+        map(i => {
+          if (i[0]) {
+            return i[0];
+          }
+          throw new Error('No se ha encontrado al usuario');
+        }),
+        catchError(error => {
+          console.warn(error);
+          return of({});
+        }));
+  }
 }
