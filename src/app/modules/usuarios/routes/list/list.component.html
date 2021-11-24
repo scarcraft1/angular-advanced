@@ -1,11 +1,11 @@
 <p>list works!</p>
-<div [ngSwitch]="userRole" appHotCounter>
+<div [ngSwitch]="userRole">
   <div *ngSwitchCase="roles.admin">Admin</div>
   <div *ngSwitchCase="roles.invitado">Guest</div>
   <div *ngSwitchDefault>Unknown</div>
 </div>
 
-<button type="button" (click)="addUser()">Añadir usuario</button>
+<button type="button" (click)="addUser()" appHotCounter>Añadir usuario</button>
 <input type="text" [(ngModel)]="filter" />
 <ng-container appFetch="users" (users$)="usuarios = $event"></ng-container>
 <app-user-list-item
