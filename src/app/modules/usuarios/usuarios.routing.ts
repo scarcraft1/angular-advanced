@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { EditComponent, ListComponent, NewComponent } from "./routes";
+import { UserDetailsResolver } from "./services";
 
 const ROUTES: Routes = [
   {
@@ -14,7 +15,10 @@ const ROUTES: Routes = [
   },
   {
     path: ':id/edit',
-    component: EditComponent
+    component: EditComponent,
+    resolve: {
+      userDetails: UserDetailsResolver
+    }
   }
 ]
 
