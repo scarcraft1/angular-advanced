@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CoreModule } from '@core';
-import { FetchModule, FilepickerModule, HighlightModule, HotCounterModule, TooltipModule } from '@shared';
+import { FetchModule, FilepickerModule, HighlightModule, HotCounterModule, PaginateModule, TooltipModule } from '@shared';
 import { COMPONENTS } from './components';
 import { ROUTES } from './routes';
 import { UsuariosRoutingModule } from './usuarios.routing';
@@ -11,6 +11,7 @@ import { UsuariosRoutingModule } from './usuarios.routing';
     CoreModule,
     FetchModule,
     TooltipModule,
+    PaginateModule,
     HighlightModule,
     HotCounterModule,
     FilepickerModule,

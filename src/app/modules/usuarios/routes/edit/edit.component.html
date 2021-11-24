@@ -1,1 +1,13 @@
 <p>edit works!</p>
+<span *ngFor="let item of (cosas | paginate : page : 10 : 'template')" style="padding-inline: 1em; border: 1px dotted; display: inline-block;"> {{ item | number : '000.0-0' }} </span>
+<hr>
+<span *ngFor="let item of misCosas" style="padding-inline: 1em; border: 1px dotted; display: inline-block;"> {{ item  }} </span>
+<hr>
+<span *ngFor="let item of otrasCosas()" style="padding-inline: 1em; border: 1px dotted; display: inline-block;"> {{ item  }} </span>
+<hr>
+<span *ngFor="let item of otrasCosas2(cosas)" style="padding-inline: 1em; border: 1px dotted; display: inline-block;"> {{ item  }} </span>
+<div>
+  <button type="button" (click)="page = page - 1" >&lt;</button>
+  <button type="button" (click)="page = page + 1" >&gt;</button>
+  <button type="button" (click)="changeValue()">🗑</button>
+</div>

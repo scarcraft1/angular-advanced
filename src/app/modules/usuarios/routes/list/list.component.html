@@ -10,7 +10,13 @@
 <ng-container appFetch="users" (users$)="usuarios = $event"></ng-container>
 <app-user-list-item
   [user]="user"
-  *ngFor="let user of usuarios; trackBy: trackById"
-  [appTooltip]="user.name"
+  *ngFor="let user of usuarios | slice : 0 : 5; trackBy: trackById"
+  [appTooltip]="user.name | uppercase | lowercase"
+>
+</app-user-list-item>
+<app-user-list-item
+  [user]="user"
+  *ngFor="let user of users$ | async | slice : 0 : 5; trackBy: trackById"
+  [appTooltip]="user.name | uppercase | lowercase"
 >
 </app-user-list-item>

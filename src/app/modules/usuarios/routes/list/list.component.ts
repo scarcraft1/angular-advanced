@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { UsuariosService } from '../../services';
 import { Rol } from '../../types';
 
@@ -7,7 +9,9 @@ import { Rol } from '../../types';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
 
   public roles: typeof Rol = Rol;
 
@@ -16,6 +20,7 @@ export class ListComponent implements OnInit {
   public userRole: Rol = Rol.superadmin;
 
   public usuarios: any[] = [];
+  public users$?: Observable<any[]>;
 
   constructor(private service: UsuariosService) { }
 
@@ -28,7 +33,15 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.service.loadUsers().subscribe(users => this.usuarios = users);
+    this.service.loadUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(users => this.usuarios = users);
+    this.users$ = this.service.loadUsers();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }
