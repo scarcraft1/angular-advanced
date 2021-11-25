@@ -8,12 +8,12 @@ import { ShoppingBasketService } from '../../services';
   styleUrls: ['./shopping-basket.component.scss']
 })
 export class ShoppingBasketComponent<T> implements OnInit {
-  public albums$?: Observable<T[]>;
+  public items$?: Observable<T[]>;
 
   constructor(private service: ShoppingBasketService<T>) { }
 
   ngOnInit(): void {
-    this.albums$ = this.service.getBasket();
+    this.items$ = this.service.getBasket();
   }
 
   removeFromBasket(item: T) {

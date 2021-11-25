@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class ShoppingBasketService<T> {
     return this.basket$.asObservable();
   }
 
-  isInBasket(item: T): boolean {
-    return this.basket$.getValue().includes(item);
+  isInBasket(item: T): Observable<boolean> {
+    return this.basket$.pipe(map(items => items.includes(item)));
   }
 
   addToBasket(item: T): void {

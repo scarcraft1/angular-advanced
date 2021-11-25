@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ShoppingBasketService } from '@shared';
+import { Observable } from 'rxjs';
 import { Album } from '../../models';
 
 @Component({
@@ -12,7 +13,7 @@ export class ListItemComponent implements OnInit {
   @Input()
   public item!: Album;
 
-  public isInBasket: boolean = false;
+  public isInBasket!: Observable<boolean>;
 
   constructor(private basketService: ShoppingBasketService<Album>) { }
 
@@ -20,14 +21,12 @@ export class ListItemComponent implements OnInit {
     this.isInBasket = this.basketService.isInBasket(this.item);
   }
 
-  addToBasket(item: Album) {
-    this.isInBasket = true;
-    this.basketService.addToBasket(item);
+  addToBasket() {
+    this.basketService.addToBasket(this.item);
   }
 
-  removeFromBasket(item: Album) {
-    this.isInBasket = false;
-    this.basketService.removeFromBasket(item);
+  removeFromBasket() {
+    this.basketService.removeFromBasket(this.item);
   }
 
 }

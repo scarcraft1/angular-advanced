@@ -1,8 +1,12 @@
 <p>list-item works!</p>
 {{ item | json }}
-<button type="button" (click)="addToBasket(item)" class="add" *ngIf="!isInBasket">
-  ➕
-</button>
-<button type="button" (click)="removeFromBasket(item)" class="remove" *ngIf="isInBasket">
-  ❌
-</button>
+<ng-container *ngIf="isInBasket | async; else addButton">
+  <button type="button" (click)="removeFromBasket()" class="remove" *ngIf="isInBasket | async">
+    ❌
+  </button>
+</ng-container>
+<ng-template #addButton>
+  <button type="button" (click)="addToBasket()" class="add" *ngIf="!(isInBasket | async)">
+    ➕
+  </button>
+</ng-template>
