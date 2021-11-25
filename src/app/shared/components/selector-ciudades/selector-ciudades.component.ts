@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, forkJoin } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { concatMap, switchMap, tap } from 'rxjs/operators';
 import { SelectorCiudadesService } from './selector-ciudades.service';
 
 @Component({
@@ -24,12 +24,34 @@ export class SelectorCiudadesComponent implements OnInit {
     //   this.provincias = provincias;
     //   this.loading = false;
     // }, error => {}, () => {})
+
+
+    // this.service.loadProvincias()
+    //   .pipe(switchMap(result => {
+    //     this.provincias = result;
+    //     return this.service.loadCiudades();
+    //   }))
+    // .subscribe(result => {
+    //   this.loading = false;
+    //   this.ciudades = result;
+    // });
     this.service.loadProvincias()
-    .pipe(switchMap(result => {
-      this.provincias = result;
-      return this.service.loadCiudades()
-    }))
-    .subscribe(result => { this.loading = false; this.ciudades = result;})
+      .pipe(concatMap(result => {
+        this.provincias = result;
+        return this.service.loadCiudades();
+      }))
+      .subscribe(result => {
+        this.loading = false;
+        this.ciudades = result;
+      });
+    // this.service.loadProvincias()
+    //   .subscribe(result => {
+    //     this.provincias = result;
+    //     this.service.loadCiudades().subscribe(resutl => {
+    //       this.ciudades = resutl;
+    //       this.loading = false;
+    //     });
+    //   });
   }
 
 }
