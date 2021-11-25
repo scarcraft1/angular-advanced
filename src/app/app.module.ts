@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoreModule } from '@core';
-import { ShoppingBasketModule } from '@shared';
+import { SelectorCiudadesModule, ShoppingBasketModule } from '@shared';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { COMPONENTS } from './components';
@@ -22,6 +22,7 @@ import { ROUTES } from './routes';
     BrowserModule,
     AppRoutingModule,
     ShoppingBasketModule,
+    SelectorCiudadesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
