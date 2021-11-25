@@ -4,7 +4,7 @@ import { UsuariosService } from "../../services";
 @Component({
   selector: 'app-user-list-item',
   templateUrl: './user-list-item.component.html',
-  styles: [':host { display: block; }']
+  styles: [':host { display: block; }'],
 })
 export class UserListItemComponent {
   @Input() user?: any;

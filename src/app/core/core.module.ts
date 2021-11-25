@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VendorModule } from '../vendor/vendor.module';
 
-const CoreModules =  [
+const CoreModules = [
   CommonModule,
   FormsModule,
   ReactiveFormsModule,

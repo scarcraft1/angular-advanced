@@ -24,7 +24,6 @@ import { ROUTES } from './routes';
     ShoppingBasketModule,
     SelectorCiudadesModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

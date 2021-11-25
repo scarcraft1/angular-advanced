@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, forkJoin } from 'rxjs';
-import { concatMap, switchMap, tap } from 'rxjs/operators';
+import { concatMap, delay, switchMap, tap } from 'rxjs/operators';
 import { SelectorCiudadesService } from './selector-ciudades.service';
 
 @Component({
@@ -35,15 +35,28 @@ export class SelectorCiudadesComponent implements OnInit {
     //   this.loading = false;
     //   this.ciudades = result;
     // });
-    this.service.loadProvincias()
-      .pipe(concatMap(result => {
-        this.provincias = result;
-        return this.service.loadCiudades();
-      }))
-      .subscribe(result => {
-        this.loading = false;
-        this.ciudades = result;
-      });
+    // this.service.loadProvincias()
+    //   .pipe(concatMap(result => {
+    //     this.provincias = result;
+    //     return this.service.loadCiudades();
+    //   }))
+    //   .subscribe(result => {
+    //     this.loading = false;
+    //     this.ciudades = result;
+    //   });
+    forkJoin(
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000)),
+      this.service.loadProvincias().pipe(delay(Math.random() * 1000))
+    )
+    .subscribe(result => console.log(result));
     // this.service.loadProvincias()
     //   .subscribe(result => {
     //     this.provincias = result;
