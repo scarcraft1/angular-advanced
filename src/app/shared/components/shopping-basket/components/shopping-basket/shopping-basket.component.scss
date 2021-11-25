@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.basket-item {
+  border: solid 1px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px 3px grey;
+  margin-bottom: 1em;
+  padding: 1em .5em;
+}
+
+.basket-item>button {
+  border: none;
+  background-color: red;
+  text-align: center;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: rebeccapurple;
+  }
+}

@@ -1,0 +1,7 @@
+main {
+  display: flex;
+
+  &>aside {
+    width: 200px;
+  }
+}

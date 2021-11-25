@@ -1,0 +1,5 @@
+<p>shopping-basket works!</p>
+<div *ngFor="let item of albums$ | async" class="basket-item">
+  {{item | json}}
+  <button type="button" (click)="removeFromBasket(item)">🗑</button>
+</div>

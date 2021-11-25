@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CoreModule } from '@core';
-import { ShoppingBasketComponent } from './shopping-basket.component';
+import { COMPONENTS } from './components';
 
 @NgModule({
   imports: [CoreModule],
-  exports: [ShoppingBasketComponent],
-  declarations: [ShoppingBasketComponent],
+  exports: [...COMPONENTS],
+  declarations: [...COMPONENTS],
 })
 export class ShoppingBasketModule { }
