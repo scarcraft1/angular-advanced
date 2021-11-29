@@ -1,0 +1,21 @@
+.form-group {
+  margin-bottom: .5rem;;
+}
+
+.form-control {
+  display: block;
+  border-radius: 5px;
+  border: inset 2px black;
+}
+
+.form-control.is-invalid {
+  border-color: red;
+}
+.invalid-feedback {
+  display: none;
+  font-size: small;
+  color: red;
+}
+.form-control.is-invalid ~ .invalid-feedback {
+  display: block;
+}

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AbstractControlOptions, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
+import { AlbumsService } from '../../services';
 
 @Component({
   selector: 'app-new',
@@ -17,8 +20,19 @@ export class NewComponent implements OnInit {
     return this.getErrors(this.form);
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private service: AlbumsService,
+    ) {
     this.form = this.createForm();
+  }
+
+  guardar() {
+    this.service.add({title: this.form.value?.title})
+      .pipe(tap(console.log))
+      .subscribe(() => {this.router.navigate(['../'], { relativeTo: this.route})});
   }
 
   ngOnInit(): void {
@@ -51,10 +65,8 @@ export class NewComponent implements OnInit {
 
   private createForm(): FormGroup {
     return this.fb.group({
-      title: ['Tercer título', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]]
-    }, {
-      validators: (control: AbstractControl) => control.value.title !== 'el título' ? { tituloIncorrecto: 'Debes indicar "el título"' } : null
-    } as AbstractControlOptions);
+      title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]]
+    });
   }
 
 }

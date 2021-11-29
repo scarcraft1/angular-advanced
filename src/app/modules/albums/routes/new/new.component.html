@@ -1,14 +1,18 @@
 <h4 style="margin-top: 0;">Crear album:</h4>
-<form name="newAlbum" id="newAlbum" [formGroup]="form">
-  <input type="text" formControlName="title" [ngClass]="{'is-invalid' : errors?.title}">
-  <div class="invalid-feedback" *ngIf="errors?.title as errors">
-    <div *ngIf="errors?.required">El título es obligatorio</div>
-    <div *ngIf="errors?.minlength as error">
-      El título tiene que tener como mínimo {{error.requiredLength}} caracteres
-    </div>
-    <div *ngIf="errors?.maxlength as error">
-      El título tiene que tener como máximo {{error.requiredLength}} caracteres y ahora tiene {{error.actualLength}}
+<form name="newAlbum" id="newAlbum" [formGroup]="form" (ngSubmit)="guardar()">
+  <div class="form-group">
+    <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid' : errors?.title}">
+    <div class="invalid-feedback" *ngIf="errors?.title as errors">
+      <div *ngIf="errors?.required">El título es obligatorio</div>
+      <div *ngIf="errors?.minlength as error">
+        El título tiene que tener como mínimo {{error.requiredLength}} caracteres
+      </div>
+      <div *ngIf="errors?.maxlength as error">
+        El título tiene que tener como máximo {{error.requiredLength}} caracteres y ahora tiene {{error.actualLength}}
+      </div>
     </div>
   </div>
+  <button type="submit" [disabled]="form.invalid">
+    Guardar
+  </button>
 </form>
-{{errors?.tituloIncorrecto | json}}
