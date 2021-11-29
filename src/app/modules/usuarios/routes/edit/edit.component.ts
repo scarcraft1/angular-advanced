@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, forkJoin, merge, of, Subject, throwError, timer } from 'rxjs';
-import { catchError, delay, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { merge, of, Subject, timer } from 'rxjs';
+import { catchError, delay, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { UsuariosService } from '../../services';
 
 @Component({

@@ -1,4 +1,4 @@
-<h4>{{ item.title }}</h4>
+<h4><a [routerLink]="[item.id, 'edit']">{{ item.title }}</a></h4>
 <div *ngIf="item.songs.length">
   <h5>Canciones:</h5>
   <ol>
