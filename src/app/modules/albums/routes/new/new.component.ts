@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AlbumsService } from '../../services';
 
 @Component({
@@ -9,11 +10,18 @@ import { AlbumsService } from '../../services';
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.scss']
 })
-export class NewComponent implements OnInit {
+export class NewComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   public form: FormGroup;
+  public tipos = ['full-length', 'single'];
 
   get f() {
     return this.form.controls;
+  }
+
+  get songs(): FormControl[] {
+    return (this.f.songs as FormArray)?.controls as FormControl[];
   }
 
   get errors() {
@@ -25,17 +33,75 @@ export class NewComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private service: AlbumsService,
-    ) {
+  ) {
     this.form = this.createForm();
   }
 
+
+  setFormValue() {
+    this.form.setValue({ title: 'un nuevo título', type: 'single', songs: ['hola', 'adios']});
+  }
+
+  patchFormValue() {
+    this.form.patchValue({ title: 'un nuevo título' });
+  }
+
+  reset() {
+    this.form.reset({ title: 'un nuevo título'});
+    ['hello', 'goodbye'].forEach((song, idx) => {
+      if (this.songs[idx]) {
+        (this.f.songs as FormArray).at(idx).reset(song);
+      } else {
+        this.newSong(song);
+      }
+    })
+  }
+
+  newSong(value?: string) {
+    (this.f.songs as FormArray)?.push(this.fb.control(value, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]));
+  }
+
+  quitarCancion(idx: number): void {
+    (this.f.songs as FormArray)?.removeAt(idx);
+  }
+
   guardar() {
-    this.service.add({title: this.form.value?.title})
+    this.service.add(this.form.getRawValue())
       .pipe(tap(console.log))
-      .subscribe(() => {this.router.navigate(['../'], { relativeTo: this.route})});
+      .subscribe(() => { this.router.navigate(['../'], { relativeTo: this.route }) });
+  }
+
+  private observeAlbumTypeChange(): void {
+    this.f.type.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        startWith(this.f.type.value),
+        debounceTime(150),
+        distinctUntilChanged())
+      .subscribe(value => {
+        console.log(value);
+        this.f.songs.clearValidators();
+        if (value === 'single') {
+          this.f.title.enable({
+            emitEvent: false, // No se emite evento en el valueChanges
+            onlySelf: true // Emite evento si no se ha indicado lo contrario, pero sus padres no emiten evento valueChanges
+          });
+          this.f.songs.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1)]);
+        } else if (value === 'full-length') {
+          this.f.title.disable();
+          this.f.songs.setValidators([Validators.required, Validators.minLength(1)]);
+        }
+        this.f.songs.updateValueAndValidity();
+      })
   }
 
   ngOnInit(): void {
+    this.observeAlbumTypeChange();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private getErrors(control: AbstractControl): ValidationErrors | null {
@@ -47,7 +113,7 @@ export class NewComponent implements OnInit {
         const errors = this.getErrors(control);
         if (errors) {
           acc = acc ?? {};
-          acc['control_' + idx] = errors;
+          acc[idx] = errors;
         }
         return acc
       }, control.errors)
@@ -65,7 +131,9 @@ export class NewComponent implements OnInit {
 
   private createForm(): FormGroup {
     return this.fb.group({
-      title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]]
+      title: [{ value: 'El título de mi nuevo album', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
+      type: [null, Validators.required],
+      songs: this.fb.array(['hola', 'adios'], [Validators.required, Validators.minLength(2)])
     });
   }
 

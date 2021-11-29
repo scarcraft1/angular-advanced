@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Album } from '../models';
+import { ResponseToEntity } from '../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +20,11 @@ export class AlbumsService {
       .pipe(
         take(1),
         switchMap(result => result.length ? of(result) : this.http.get<Album[]>(this.URL)),
+        map(result => result.map(album => ResponseToEntity(album))),
         tap(result => this.cache$.next(result)));
   }
 
-  add(album: { title: any; }): Observable<Album> {
+  add(album: { title: string; songs: string[] }): Observable<Album> {
     return this.loadAlbums()
       .pipe(
         map(result => result.concat({ id: result.length, userId: NaN, ...album })),

@@ -1,12 +1,28 @@
-<h4>{{item.title}}</h4>
-<div style="text-align: right;">
+<h4>{{ item.title }}</h4>
+<div *ngIf="item.songs.length">
+  <h5>Canciones:</h5>
+  <ol>
+    <li *ngFor="let cancion of item.songs">{{ cancion }}</li>
+  </ol>
+</div>
+<div style="text-align: right">
   <ng-container *ngIf="isInBasket | async; else addButton">
-    <button type="button" (click)="removeFromBasket()" class="remove" *ngIf="isInBasket | async">
+    <button
+      type="button"
+      (click)="removeFromBasket()"
+      class="remove"
+      *ngIf="isInBasket | async"
+    >
       ❌ Remove from cart
     </button>
   </ng-container>
   <ng-template #addButton>
-    <button type="button" (click)="addToBasket()" class="add" *ngIf="!(isInBasket | async)">
+    <button
+      type="button"
+      (click)="addToBasket()"
+      class="add"
+      *ngIf="!(isInBasket | async)"
+    >
       ➕ Add to cart
     </button>
   </ng-template>
