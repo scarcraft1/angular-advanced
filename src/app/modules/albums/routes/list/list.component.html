@@ -1,2 +1,7 @@
-<p>Album list works!</p>
+<p>Lista de álbumes</p>
+<div style="margin-bottom: 1rem;">
+  <a routerLink="./new">➕ Nuevo album</a>
+</div>
+<div class="grid">
 <app-list-item *ngFor="let album of albums" [item]="album"></app-list-item>
+</div>
