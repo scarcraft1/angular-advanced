@@ -40,7 +40,10 @@ export class AlbumsService {
   add(album: { title: string; songs: Song[] }): Observable<Album> {
     return this.loadAlbums()
       .pipe(
-        map(result => result.concat({ id: result.length, userId: NaN, ...album })),
+        map(result => {
+          const lastId = result.map(i => i.id).sort((a, b) => b - a)[0];
+          return result.concat({ id: (lastId || 0) + 1, userId: NaN, ...album });
+        }),
         tap(result => this.cache$.next(result)),
         map(result => result.slice(-1)[0]));
   }

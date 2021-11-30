@@ -47,12 +47,9 @@
         <th style="border: 1px solid black;"></th>
       </thead>
       <tbody style="border: 1px solid black;">
-        <tr *ngFor="let song of songs; let idx = index" style="border: 1px solid black;" [formGroup]="song">
-          <td style="border: 1px solid black;">
-            <input type="text" formControlName="title" />
-          </td>
-          <td style="border: 1px solid black;">
-            <input type="text" formControlName="duration" />
+        <tr *ngFor="let song of songs; let idx = index" style="border: 1px solid black;" >
+          <td style="border: 1px solid black;" colspan="2">
+            <app-song [formControl]="song"></app-song>
           </td>
           <td style="border: 1px solid black;">
             <button

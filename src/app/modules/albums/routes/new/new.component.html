@@ -21,10 +21,11 @@
     </div>
   </div>
   <div class="form-group">
-    <select class="input-group" name="type" id="type" formControlName="type">
+    <app-radio [items]="tipos" name="type" id="type" formControlName="type" style="max-width: 300px;"></app-radio>
+    <!-- <select class="input-group" name="type" id="type" formControlName="type">
       <option [ngValue]="null">Seleccione tipo de album</option>
       <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{ tipo }}</option>
-    </select>
+    </select> -->
   </div>
   <fieldset style="margin-bottom: 0.5rem" formArrayName="songs">
     <legend
@@ -46,12 +47,9 @@
         <th style="border: 1px solid black;"></th>
       </thead>
       <tbody style="border: 1px solid black;">
-        <tr *ngFor="let song of songs; let idx = index" style="border: 1px solid black;" [formGroup]="song">
-          <td style="border: 1px solid black;">
-            <input type="text" formControlName="title" />
-          </td>
-          <td style="border: 1px solid black;">
-            <input type="text" formControlName="duration" />
+        <tr *ngFor="let song of songs; let idx = index" style="border: 1px solid black;" >
+          <td style="border: 1px solid black;" colspan="2">
+            <app-song [formControl]="song"></app-song>
           </td>
           <td style="border: 1px solid black;">
             <button

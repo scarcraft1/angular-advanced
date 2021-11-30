@@ -1,0 +1,4 @@
+<label *ngFor="let item of items; let idx = index">
+  <input type="radio" [name]="'radio_' + name" [(ngModel)]="selectedValue" [value]="item">
+  {{item}}
+</label>

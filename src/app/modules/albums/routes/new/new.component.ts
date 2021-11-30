@@ -20,8 +20,8 @@ export class NewComponent implements OnInit, OnDestroy {
     return this.form.controls;
   }
 
-  get songs(): FormGroup[] {
-    return (this.f.songs as FormArray)?.controls as FormGroup[];
+  get songs(): FormControl[] {
+    return (this.f.songs as FormArray)?.controls as FormControl[];
   }
 
   get errors() {
@@ -43,7 +43,7 @@ export class NewComponent implements OnInit, OnDestroy {
   }
 
   newSong(value?: string) {
-    (this.f.songs as FormArray)?.push(this.fb.group({ title: '', duration: 0 }, [Validators.required]));
+    (this.f.songs as FormArray)?.push(this.fb.control({ title: '', duration: 0 }, [Validators.required]));
   }
 
   quitarCancion(idx: number): void {
@@ -110,7 +110,7 @@ export class NewComponent implements OnInit, OnDestroy {
 
   private createForm(): FormGroup {
     return this.fb.group({
-      title: [{ value: 'El título de mi nuevo album', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
+      title: ['El título de mi nuevo album', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       type: [null, Validators.required],
       songs: this.fb.array([], [Validators.required, Validators.minLength(2)])
     });

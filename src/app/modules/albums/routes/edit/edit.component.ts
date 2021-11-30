@@ -22,8 +22,8 @@ export class EditComponent implements OnInit, OnDestroy {
     return this.form.controls;
   }
 
-  get songs(): FormGroup[] {
-    return (this.f.songs as FormArray)?.controls as FormGroup[];
+  get songs(): FormControl[] {
+    return (this.f.songs as FormArray)?.controls as FormControl[];
   }
 
   get errors() {
@@ -41,13 +41,13 @@ export class EditComponent implements OnInit, OnDestroy {
 
   reset() {
     (this.f.songs as FormArray).clear();
-    this.album?.songs.forEach(i => (this.f.songs as FormArray).push(this.fb.group({ title: '', duration: 0 })));
+    this.album?.songs.forEach(i => (this.f.songs as FormArray).push(this.fb.control({ title: '', duration: 0 })));
     this.form.patchValue({...this.album});
     console.log(this.album);
   }
 
   newSong(value?: string) {
-    (this.f.songs as FormArray)?.push(this.fb.group({ title: '', duration: 0 }, [Validators.required]));
+    (this.f.songs as FormArray)?.push(this.fb.control({ title: '', duration: 0 }, [Validators.required]));
   }
 
   quitarCancion(idx: number): void {
