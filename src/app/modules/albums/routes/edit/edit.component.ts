@@ -1,8 +1,8 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgModel } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Album } from '../../models';
 import { AlbumsService } from '../../services';
 
@@ -11,36 +11,81 @@ import { AlbumsService } from '../../services';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked, AfterContentInit, AfterContentChecked {
+export class EditComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  private album?: Album;
 
+  public form: FormGroup;
   public tipos = ['full-length', 'single'];
-  public album?: Album;
-  public maxSongsAllowed = 1;
 
-  @ViewChild('title', { static: false })
-  public title?: NgModel
+  get f() {
+    return this.form.controls;
+  }
 
-  public get type() { return this.maxSongsAllowed === 1 ? 'single' : 'full-length'; }
-  public set type(tipo: 'full-length' | 'single') {
-    this.maxSongsAllowed = tipo === 'single' ? 1 : 15;
+  get songs(): FormControl[] {
+    return (this.f.songs as FormArray)?.controls as FormControl[];
+  }
+
+  get errors() {
+    return this.getErrors(this.form);
   }
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private service: AlbumsService
-  ) { }
-
-  addSong() {
-    this.album?.songs.push('');
+    private service: AlbumsService,
+  ) {
+    this.form = this.createForm();
   }
 
-  removeSong(idx: number) {
-    this.album?.songs.splice(idx, 1);
+  reset() {
+    (this.f.songs as FormArray).clear();
+    this.album?.songs.forEach(i => (this.f.songs as FormArray).push(this.fb.control(i)));
+    this.form.patchValue({...this.album});
+    console.log(this.album);
+  }
+
+  newSong(value?: string) {
+    (this.f.songs as FormArray)?.push(this.fb.control(value, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]));
+  }
+
+  quitarCancion(idx: number): void {
+    (this.f.songs as FormArray)?.removeAt(idx);
+  }
+
+  guardar() {
+    this.service.edit(this.form.getRawValue())
+      .pipe(tap(console.log))
+      .subscribe(() => { this.router.navigate(['../../'], { relativeTo: this.route }) });
+  }
+
+  private observeAlbumTypeChange(): void {
+    this.f.type.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        startWith(this.f.type.value),
+        debounceTime(150),
+        distinctUntilChanged())
+      .subscribe(value => {
+        console.log(value);
+        this.f.songs.clearValidators();
+        if (value === 'single') {
+          this.f.title.enable({
+            emitEvent: false, // No se emite evento en el valueChanges
+            onlySelf: true // Emite evento si no se ha indicado lo contrario, pero sus padres no emiten evento valueChanges
+          });
+          this.f.songs.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1)]);
+        } else if (value === 'full-length') {
+          this.f.title.disable();
+          this.f.songs.setValidators([Validators.required, Validators.minLength(1)]);
+        }
+        this.f.songs.updateValueAndValidity();
+      })
   }
 
   ngOnInit(): void {
+    this.observeAlbumTypeChange();
     this.route.paramMap
       .pipe(
         takeUntil(this.destroy$),
@@ -51,24 +96,9 @@ export class EditComponent implements OnInit, OnDestroy, AfterViewInit, AfterVie
           this.router.navigate(['../', '../'], { relativeTo: this.route });
         } else {
           this.album = album;
+          this.reset();
         }
       });
-  }
-
-  ngAfterViewInit() {
-    console.log('ngAfterViewInit - title', this.title);
-  }
-
-  ngAfterViewChecked() {
-    console.log('ngAfterViewChecked - title', this.title?.errors);
-  }
-
-  ngAfterContentInit() {
-    console.log('ngAfterContentInit - title', this.title);
-  }
-
-  ngAfterContentChecked() {
-    console.log('ngAfterContentChecked - title', this.title);
   }
 
   ngOnDestroy() {
@@ -76,4 +106,37 @@ export class EditComponent implements OnInit, OnDestroy, AfterViewInit, AfterVie
     this.destroy$.complete();
   }
 
+  private getErrors(control: AbstractControl): ValidationErrors | null {
+    if (control instanceof FormControl) {
+      return control.errors;
+    }
+    if (control instanceof FormArray) {
+      return control.controls.reduce((acc, control, idx) => {
+        const errors = this.getErrors(control);
+        if (errors) {
+          acc = acc ?? {};
+          acc[idx] = errors;
+        }
+        return acc
+      }, control.errors)
+    }
+    return Object.entries((control as FormGroup).controls)
+      .reduce((acc, [name, control]) => {
+        const errors = this.getErrors(control);
+        if (errors) {
+          acc = acc ?? {};
+          acc[name] = errors;
+        }
+        return acc;
+      }, control.errors);
+  }
+
+  private createForm(): FormGroup {
+    return this.fb.group({
+      id: [null, Validators.required],
+      title: [{ value: 'El título de mi nuevo album', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
+      type: [null, Validators.required],
+      songs: this.fb.array(['hola', 'adios'], [Validators.required, Validators.minLength(2)])
+    });
+  }
 }

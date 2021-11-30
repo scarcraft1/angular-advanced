@@ -28,6 +28,15 @@ export class AlbumsService {
     return this.loadAlbums().pipe(map(result => result.find(i => i.id === id) ?? null));
   }
 
+  edit(album: Album) {
+    return this.loadAlbums().pipe(
+      tap(result => {
+        const idx = result.findIndex(i => i.id === album.id);
+        this.cache$.next(result.slice(0, idx).concat(album).concat(result.slice(idx + 1)));
+      }),
+      map(() => null));
+  }
+
   add(album: { title: string; songs: string[] }): Observable<Album> {
     return this.loadAlbums()
       .pipe(
