@@ -2,7 +2,7 @@
 <div *ngIf="item.songs.length">
   <h5>Canciones:</h5>
   <ol>
-    <li *ngFor="let cancion of item.songs">{{ cancion }}</li>
+    <li *ngFor="let cancion of item.songs">{{ cancion.title }} ({{cancion.duration}})</li>
   </ol>
 </div>
 <div style="text-align: right">

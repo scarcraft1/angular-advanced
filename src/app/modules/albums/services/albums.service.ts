@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { Album } from '../models';
+import { Album, Song } from '../models';
 import { ResponseToEntity } from '../utils';
 
 @Injectable({
@@ -37,7 +37,7 @@ export class AlbumsService {
       map(() => null));
   }
 
-  add(album: { title: string; songs: string[] }): Observable<Album> {
+  add(album: { title: string; songs: Song[] }): Observable<Album> {
     return this.loadAlbums()
       .pipe(
         map(result => result.concat({ id: result.length, userId: NaN, ...album })),

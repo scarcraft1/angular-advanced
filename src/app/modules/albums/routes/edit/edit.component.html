@@ -42,13 +42,17 @@
     </legend>
     <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
       <thead style="border: 1px solid black;">
-        <th width="90%" style="border: 1px solid black;">Canción</th>
+        <th width="45%" style="border: 1px solid black; text-align: left;">Título de la canción</th>
+        <th width="45%" style="border: 1px solid black; text-align: left;">Duración de la canción</th>
         <th style="border: 1px solid black;"></th>
       </thead>
       <tbody style="border: 1px solid black;">
-        <tr *ngFor="let song of songs; let idx = index" style="border: 1px solid black;">
+        <tr *ngFor="let song of songs; let idx = index" style="border: 1px solid black;" [formGroup]="song">
           <td style="border: 1px solid black;">
-            <input type="text" [formControl]="song" />
+            <input type="text" formControlName="title" />
+          </td>
+          <td style="border: 1px solid black;">
+            <input type="text" formControlName="duration" />
           </td>
           <td style="border: 1px solid black;">
             <button
@@ -79,5 +83,5 @@
     {{ form.getRawValue() | json }}
   </div>
   <button type="submit" [disabled]="form.invalid">Guardar</button>
-  <button type="reset" (click)="reset()">Reset</button>
+  <button type="button" (click)="reset()">Reset</button>
 </form>

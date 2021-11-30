@@ -20,8 +20,8 @@ export class NewComponent implements OnInit, OnDestroy {
     return this.form.controls;
   }
 
-  get songs(): FormControl[] {
-    return (this.f.songs as FormArray)?.controls as FormControl[];
+  get songs(): FormGroup[] {
+    return (this.f.songs as FormArray)?.controls as FormGroup[];
   }
 
   get errors() {
@@ -37,28 +37,13 @@ export class NewComponent implements OnInit, OnDestroy {
     this.form = this.createForm();
   }
 
-
-  setFormValue() {
-    this.form.setValue({ title: 'un nuevo título', type: 'single', songs: ['hola', 'adios']});
-  }
-
-  patchFormValue() {
-    this.form.patchValue({ title: 'un nuevo título' });
-  }
-
   reset() {
-    this.form.reset({ title: 'un nuevo título'});
-    ['hello', 'goodbye'].forEach((song, idx) => {
-      if (this.songs[idx]) {
-        (this.f.songs as FormArray).at(idx).reset(song);
-      } else {
-        this.newSong(song);
-      }
-    })
+    (this.f.songs as FormArray).clear();
+    this.form.reset();
   }
 
   newSong(value?: string) {
-    (this.f.songs as FormArray)?.push(this.fb.control(value, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]));
+    (this.f.songs as FormArray)?.push(this.fb.group({ title: '', duration: 0 }, [Validators.required]));
   }
 
   quitarCancion(idx: number): void {
@@ -79,16 +64,10 @@ export class NewComponent implements OnInit, OnDestroy {
         debounceTime(150),
         distinctUntilChanged())
       .subscribe(value => {
-        console.log(value);
         this.f.songs.clearValidators();
         if (value === 'single') {
-          this.f.title.enable({
-            emitEvent: false, // No se emite evento en el valueChanges
-            onlySelf: true // Emite evento si no se ha indicado lo contrario, pero sus padres no emiten evento valueChanges
-          });
           this.f.songs.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(1)]);
         } else if (value === 'full-length') {
-          this.f.title.disable();
           this.f.songs.setValidators([Validators.required, Validators.minLength(1)]);
         }
         this.f.songs.updateValueAndValidity();
@@ -133,7 +112,7 @@ export class NewComponent implements OnInit, OnDestroy {
     return this.fb.group({
       title: [{ value: 'El título de mi nuevo album', disabled: true }, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       type: [null, Validators.required],
-      songs: this.fb.array(['hola', 'adios'], [Validators.required, Validators.minLength(2)])
+      songs: this.fb.array([], [Validators.required, Validators.minLength(2)])
     });
   }
 
