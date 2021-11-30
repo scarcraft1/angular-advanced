@@ -3,7 +3,9 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
+import { Song } from '../../models';
 import { AlbumsService } from '../../services';
+import { VALIDATORS } from '../../validators';
 
 @Component({
   selector: 'app-new',
@@ -15,6 +17,8 @@ export class NewComponent implements OnInit, OnDestroy {
 
   public form: FormGroup;
   public tipos = ['full-length', 'single'];
+
+  public song: Song = { title: '', duration: 0 };
 
   get f() {
     return this.form.controls;
@@ -43,7 +47,7 @@ export class NewComponent implements OnInit, OnDestroy {
   }
 
   newSong(value?: string) {
-    (this.f.songs as FormArray)?.push(this.fb.control({ title: '', duration: 0 }, [Validators.required]));
+    (this.f.songs as FormArray)?.push(this.fb.control({ title: '', duration: 0 }, [Validators.required, VALIDATORS.song]));
   }
 
   quitarCancion(idx: number): void {

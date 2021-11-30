@@ -1,4 +1,11 @@
 <h4 style="margin-top: 0">Crear album:</h4>
+<app-song
+  appSongValidator
+  style="max-width: 300px"
+  [(ngModel)]="song"
+  #mySong="ngModel"
+></app-song>
+{{ mySong.errors | json }}
 <form name="newAlbum" id="newAlbum" [formGroup]="form" (ngSubmit)="guardar()">
   <div class="form-group">
     <input
@@ -21,7 +28,13 @@
     </div>
   </div>
   <div class="form-group">
-    <app-radio [items]="tipos" name="type" id="type" formControlName="type" style="max-width: 300px;"></app-radio>
+    <app-radio
+      [items]="tipos"
+      name="type"
+      id="type"
+      formControlName="type"
+      style="max-width: 300px"
+    ></app-radio>
     <!-- <select class="input-group" name="type" id="type" formControlName="type">
       <option [ngValue]="null">Seleccione tipo de album</option>
       <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{ tipo }}</option>
@@ -41,17 +54,23 @@
       Canciones
       <button type="button" (click)="newSong()">➕ Añadir canción</button>
     </legend>
-    <table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
-      <thead style="border: 1px solid black;">
-        <th width="90%" style="border: 1px solid black;">Canción</th>
-        <th style="border: 1px solid black;"></th>
+    <table
+      style="border: 1px solid black; width: 100%; border-collapse: collapse"
+    >
+      <thead style="border: 1px solid black">
+        <th width="90%" style="border: 1px solid black">Canción</th>
+        <th style="border: 1px solid black"></th>
       </thead>
-      <tbody style="border: 1px solid black;">
-        <tr *ngFor="let song of songs; let idx = index" style="border: 1px solid black;" >
-          <td style="border: 1px solid black;" colspan="2">
+      <tbody style="border: 1px solid black">
+        <tr
+          *ngFor="let song of songs; let idx = index"
+          style="border: 1px solid black"
+        >
+          <td style="border: 1px solid black" colspan="2">
             <app-song [formControl]="song"></app-song>
+            {{ song.errors | json }}
           </td>
-          <td style="border: 1px solid black;">
+          <td style="border: 1px solid black">
             <button
               type="button"
               (click)="quitarCancion(idx)"

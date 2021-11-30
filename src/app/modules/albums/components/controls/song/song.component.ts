@@ -44,6 +44,7 @@ export class SongComponent implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   writeValue(song: Song): void {
+    song = song ?? { title: '', duration: 0 };
     this.form.setValue(song, { emitEvent: false });
   }
 
