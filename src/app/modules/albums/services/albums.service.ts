@@ -24,6 +24,10 @@ export class AlbumsService {
         tap(result => this.cache$.next(result)));
   }
 
+  getAlbum(id: number): Observable<Album | null> {
+    return this.loadAlbums().pipe(map(result => result.find(i => i.id === id) ?? null));
+  }
+
   add(album: { title: string; songs: string[] }): Observable<Album> {
     return this.loadAlbums()
       .pipe(

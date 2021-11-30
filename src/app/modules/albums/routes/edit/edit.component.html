@@ -1,1 +1,78 @@
-<p>edit works!</p>
+<h4 style="margin-top: 0">Crear album:</h4>
+{{ album | json }}
+<form id="newAlbum" *ngIf="album">
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      name="title"
+      #title="ngModel"
+      [(ngModel)]="album.title"
+      required
+      [minlength]="3"
+      [maxlength]="255"
+      [ngClass]="{ 'is-invalid': title.invalid }"
+    />
+    <div class="invalid-feedback" *ngIf="title.errors as errors">
+      <div *ngIf="errors?.required">El título es obligatorio</div>
+      <div *ngIf="errors?.minlength as error">
+        El título tiene que tener como mínimo
+        {{ error.requiredLength }} caracteres
+      </div>
+      <div *ngIf="errors?.maxlength as error">
+        El título tiene que tener como máximo
+        {{ error.requiredLength }} caracteres y ahora tiene
+        {{ error.actualLength }}
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <select class="input-group" name="type" id="type" [(ngModel)]="type">
+      <option [ngValue]="null">Seleccione tipo de album</option>
+      <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{ tipo }}</option>
+    </select>
+  </div>
+  <fieldset style="margin-bottom: 0.5rem">
+    <legend
+      style="
+        border: 1px solid;
+        padding: 0.25em;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      Canciones
+      <button type="button" (click)="addSong()">➕ Añadir canción</button>
+    </legend>
+    <table
+      style="border: 1px solid black; width: 100%; border-collapse: collapse"
+    >
+      <thead style="border: 1px solid black">
+        <th width="90%" style="border: 1px solid black">Canción</th>
+        <th style="border: 1px solid black"></th>
+      </thead>
+      <tbody style="border: 1px solid black">
+        <tr
+          *ngFor="let song of album.songs; let idx = index"
+          style="border: 1px solid black"
+        >
+          <td style="border: 1px solid black">
+            <input [id]="'song_' + idx" type="text" [(ngModel)]="album.songs[idx]" [name]="'song_' + idx" />
+          </td>
+          <td style="border: 1px solid black">
+            <button type="button" aria-label="Quitar" (click)="removeSong(idx)">🗑</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="errors" *ngIf="!album.songs || album.songs.length < 1">
+      ERROR: Es necesario añadir alguna canción
+    </div>
+    <div class="errors" *ngIf="album.songs && album.songs.length > maxSongsAllowed">
+      ERROR: El máximo de canciones es de {{maxSongsAllowed}}
+    </div>
+  </fieldset>
+  <button type="submit" [disabled]="true">Guardar</button>
+</form>
