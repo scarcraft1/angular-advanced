@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ShoppingBasketService } from '@shared';
 import { Observable } from 'rxjs';
 import { Album } from '../../models';
@@ -6,19 +6,35 @@ import { Album } from '../../models';
 @Component({
   selector: 'app-list-item',
   templateUrl: './list-item.component.html',
-  styleUrls: ['./list-item.component.scss']
+  styleUrls: ['./list-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListItemComponent implements OnInit {
 
   @Input()
   public item!: Album;
 
-  public isInBasket!: Observable<boolean>;
+  public songIdx = 0;
+  public title = '';
+  public test = { name: 'hola', lastName: 'adios' };
 
-  constructor(private basketService: ShoppingBasketService<Album>) { }
+  public isInBasket: boolean = false;
+
+  constructor(private cd: ChangeDetectorRef, private basketService: ShoppingBasketService<Album>) { }
+
+  changeTitle() {
+    this.item.songs[this.songIdx].title = this.title;
+    const temp = this.test.lastName;
+    this.test.name = this.test.lastName;
+    this.test.lastName = temp;;
+  }
 
   ngOnInit(): void {
-    this.isInBasket = this.basketService.isInBasket(this.item);
+    this.basketService.isInBasket(this.item)
+    .subscribe(i => {
+      this.isInBasket = i;
+      this.cd.markForCheck();
+    });
   }
 
   addToBasket() {

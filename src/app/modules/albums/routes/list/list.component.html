@@ -1,9 +1,31 @@
 <p>Lista de álbumes</p>
 <button type="button" (click)="loading = true">Show spinner</button>
-<div style="margin-bottom: 1rem;">
+<div style="margin-bottom: 1rem">
   <a routerLink="./new">➕ Nuevo album</a>
 </div>
-<div class="grid">
-<app-list-item *ngFor="let album of albums" [item]="album"></app-list-item>
+
+<div>
+  <input
+    [(ngModel)]="item"
+    type="number"
+    min="0"
+    [max]="albums.length"
+    step="1"
+  />
+  <input [(ngModel)]="title" type="text" />
+  <button type="button" (click)="changeTitle()">Cambiar titulo</button>
+  <div>
+    {{ albums[item] | json }}
+  </div>
 </div>
-<app-spinner *ngIf="loading" class="spinner" (click)="loading = false"></app-spinner>
+
+<app-add-item (albumCreated)="albums.push($event)"></app-add-item>
+
+<div class="grid">
+  <app-list-item *ngFor="let album of albums" [item]="album"></app-list-item>
+</div>
+<app-spinner
+  *ngIf="loading"
+  class="spinner"
+  (click)="loading = false"
+></app-spinner>

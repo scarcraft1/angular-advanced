@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { delay } from 'rxjs/operators';
 import { Album } from '../../models';
 import { AlbumsService } from '../../services';
 
@@ -14,11 +13,18 @@ export class ListComponent implements OnInit {
   public albums: Album[] = [];
   public loading = false;
 
+  public item = 0;
+  public title = ''
+
   constructor(private service: AlbumsService) { }
+
+  changeTitle() {
+    this.albums[this.item].title = this.title;
+  }
 
   ngOnInit(): void {
     this.loading = true;
-    this.service.loadAlbums().pipe(delay(10000)).subscribe(
+    this.service.loadAlbums().subscribe(
       result => this.albums = result,
       () => { },
       () => this.loading = false);

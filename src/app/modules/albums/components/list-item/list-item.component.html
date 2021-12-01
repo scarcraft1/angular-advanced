@@ -5,13 +5,32 @@
     <li *ngFor="let cancion of item.songs">{{ cancion.title }} ({{cancion.duration}})</li>
   </ol>
 </div>
+<div *ngIf="item.songs.length">
+  <div>
+    <input
+      [(ngModel)]="songIdx"
+      type="number"
+      min="0"
+      [max]="item.songs.length"
+      step="1"
+    />
+    <input [(ngModel)]="title" type="text" />
+    <button type="button" (click)="changeTitle()">Cambiar titulo</button>
+    <div>
+      {{ item.songs[songIdx] | json }}
+    </div>
+    <div>
+      {{ test | json }}
+    </div>
+  </div>
+</div>
 <div style="text-align: right">
-  <ng-container *ngIf="isInBasket | async; else addButton">
+  <ng-container *ngIf="isInBasket ; else addButton">
     <button
       type="button"
       (click)="removeFromBasket()"
       class="remove"
-      *ngIf="isInBasket | async"
+      *ngIf="isInBasket"
     >
       ❌ Remove from cart
     </button>
@@ -21,7 +40,7 @@
       type="button"
       (click)="addToBasket()"
       class="add"
-      *ngIf="!(isInBasket | async)"
+      *ngIf="!isInBasket"
     >
       ➕ Add to cart
     </button>
