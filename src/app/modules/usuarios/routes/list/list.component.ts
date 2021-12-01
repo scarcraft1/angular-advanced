@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { FilterService } from 'src/app/services';
 import { UsuariosService } from '../../services';
 import { Rol } from '../../types';
 
@@ -22,7 +23,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public usuarios: any[] = [];
   public users$?: Observable<any[]>;
 
-  constructor(private service: UsuariosService) { }
+  constructor(private service: UsuariosService, private filterService: FilterService) { }
 
   trackById(user: any): number {
     return user.id;
@@ -33,10 +34,14 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.service.loadUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(users => this.usuarios = users);
-    this.users$ = this.service.loadUsers();
+    this.filterService.setTopic('usuarios');
+    combineLatest([
+      this.filterService.getFilterForTopicAsync('usuarios'),
+      this.service.loadUsers()
+    ]).pipe(
+      takeUntil(this.destroy$),
+      map(([filter, users]) => filter ? users.filter(i => i.name.startsWith(filter.name)) : users)
+    ).subscribe(users => this.usuarios = users);
   }
 
   ngOnDestroy() {

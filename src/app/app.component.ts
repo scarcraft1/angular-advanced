@@ -7,6 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-advanced';
-  public linkAlbums = ['/', { outlets: { 'albums': ['albums'] } }];
-  public linkUsuarios = ['/', { outlets: { 'usuarios': ['usuarios'] } }];
 }

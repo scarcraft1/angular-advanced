@@ -1,0 +1,19 @@
+<ng-container
+  [ngSwitch]="topic$ | async"
+  *ngIf="(filter$ | async) || {} as filter"
+>
+  <div *ngSwitchCase="'usuarios'">
+    <label for="userName">Nombre usuario:</label>
+    <input type="text" id="userName" [(ngModel)]="filter.name" />
+    <div>
+      <button type="button" (click)="search(filter)">Buscar</button>
+    </div>
+  </div>
+  <div *ngSwitchCase="'albums'">
+    <label for="albumTitle">Título de album:</label>
+    <input type="text" id="albumTitle" [(ngModel)]="filter.title" />
+    <div>
+      <button type="button" (click)="search(filter)">Buscar</button>
+    </div>
+  </div>
+</ng-container>

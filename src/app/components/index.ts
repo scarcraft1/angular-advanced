@@ -1,3 +1,6 @@
-const COMPONENTS: any[] = [];
+import { FilterComponent } from "./filter/filter.component";
 
-export { COMPONENTS };
+const COMPONENTS = [FilterComponent];
+
+export { COMPONENTS, FilterComponent };
+

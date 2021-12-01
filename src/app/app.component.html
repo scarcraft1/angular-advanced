@@ -1,21 +1,16 @@
 <header></header>
 <main>
   <aside>
-    <app-selector-ciudades>
-      <div>HOLA</div>
-    </app-selector-ciudades>
+    <app-filter></app-filter>
     <app-shopping-basket></app-shopping-basket>
   </aside>
-  <div style="flex-grow: 1">
+  <div style="flex-grow: 1;">
     <div>
-      <a [routerLink]="linkUsuarios">Usuarios</a>
+      <a routerLink="usuarios">Usuarios</a>
       &nbsp;&nbsp;&nbsp;
-      <a [routerLink]="linkAlbums">Albums</a>
+      <a routerLink="albums">Albums</a>
     </div>
-    <div style="display: flex">
-      <router-outlet name="usuarios"></router-outlet>
-      <router-outlet name="albums"></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </main>
 <footer></footer>
