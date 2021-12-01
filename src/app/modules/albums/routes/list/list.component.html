@@ -1,7 +1,9 @@
 <p>Lista de álbumes</p>
+<button type="button" (click)="loading = true">Show spinner</button>
 <div style="margin-bottom: 1rem;">
   <a routerLink="./new">➕ Nuevo album</a>
 </div>
 <div class="grid">
 <app-list-item *ngFor="let album of albums" [item]="album"></app-list-item>
 </div>
+<app-spinner *ngIf="loading" class="spinner" (click)="loading = false"></app-spinner>

@@ -3,3 +3,15 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1em;
 }
+:host {
+  display: block;
+}
+
+app-spinner.spinner {
+  background-color: red;
+
+  > .loader {
+    background-color: yellow;
+  }
+}
+

@@ -4,3 +4,4 @@ export * from './filepicker';
 export * from './radio';
 export * from './selector-ciudades';
 export * from './shopping-basket';
+export * from './spinner';
