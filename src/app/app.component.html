@@ -6,13 +6,16 @@
     </app-selector-ciudades>
     <app-shopping-basket></app-shopping-basket>
   </aside>
-  <div style="flex-grow: 1;">
+  <div style="flex-grow: 1">
     <div>
-      <a routerLink="usuarios">Usuarios</a>
+      <a [routerLink]="linkUsuarios">Usuarios</a>
       &nbsp;&nbsp;&nbsp;
-      <a routerLink="albums">Albums</a>
+      <a [routerLink]="linkAlbums">Albums</a>
     </div>
-    <router-outlet></router-outlet>
+    <div style="display: flex">
+      <router-outlet name="usuarios"></router-outlet>
+      <router-outlet name="albums"></router-outlet>
+    </div>
   </div>
 </main>
 <footer></footer>

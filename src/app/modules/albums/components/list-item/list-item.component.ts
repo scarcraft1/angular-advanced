@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ShoppingBasketService } from '@shared';
-import { Observable } from 'rxjs';
 import { Album } from '../../models';
 
 @Component({
@@ -26,7 +25,7 @@ export class ListItemComponent implements OnInit {
     this.item.songs[this.songIdx].title = this.title;
     const temp = this.test.lastName;
     this.test.name = this.test.lastName;
-    this.test.lastName = temp;;
+    this.test.lastName = temp;
   }
 
   ngOnInit(): void {
