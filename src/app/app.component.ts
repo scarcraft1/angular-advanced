@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-advanced';
+
+  public myObject = {
+    nombre: 'Óscar',
+    apellido1: 'Villas',
+    email: 'ovillas@hiberus.com',
+    direccion: {
+      calle: 'Avda. La Rioja',
+      numero: 6,
+      piso: 4
+    }
+  };
 }

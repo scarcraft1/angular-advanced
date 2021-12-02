@@ -1,3 +1,6 @@
-const DIRECTIVES: any[] = [];
+import { BlinkDirective } from "./blink.directive";
+import { ForInDirective } from "./for-in.directive";
 
-export { DIRECTIVES };
+const DIRECTIVES = [ BlinkDirective, ForInDirective ];
+
+export { DIRECTIVES, BlinkDirective, ForInDirective };

@@ -8,6 +8,8 @@ import { COMPONENTS } from './components';
 import { DIRECTIVES } from './directives';
 import { PIPES } from './pipes';
 import { ROUTES } from './routes';
+import { BlinkDirective } from './directives/blink.directive';
+import { ForInDirective } from './directives/for-in.directive';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,7 @@ import { ROUTES } from './routes';
     ...PIPES,
     ...ROUTES,
     ...COMPONENTS,
-    ...DIRECTIVES,
+    ...DIRECTIVES
   ],
   imports: [
     CoreModule,
