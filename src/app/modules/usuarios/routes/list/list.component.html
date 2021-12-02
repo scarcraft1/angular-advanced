@@ -6,7 +6,7 @@
 </div>
 
 <button type="button" (click)="addUser()" appHotCounter>Añadir usuario</button>
-<input type="text" [(ngModel)]="filter" />
+<input type="text" [(ngModel)]="filter" #filterInput value="goodbye" *ngIf="filterVisible" />
 <ng-container appFetch="users" (users$)="usuarios = $event"></ng-container>
 <app-user-list-item
   [user]="user"

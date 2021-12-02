@@ -16,7 +16,8 @@ export class HotCounterDirective implements OnInit, OnDestroy {
   constructor(private ref: ElementRef) { }
 
   // @HostListener('click')
-  private addClick() {
+  public addClick() {
+    console.log('click');
     this.totalCount++;
     this.bgColor = this.calculateColor(this.totalCount);
   }
