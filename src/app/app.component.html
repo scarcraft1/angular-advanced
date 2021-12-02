@@ -1,14 +1,14 @@
 <header></header>
 <main>
   <aside>
-    <app-filter></app-filter>
+    <div *appSidebar></div>
     <app-shopping-basket></app-shopping-basket>
   </aside>
   <div style="flex-grow: 1">
     <div *appFor="let item in myObject">
       val {{item.value}}
     </div>
-    <div *appBlink>
+    <div>
       <a routerLink="usuarios">Usuarios</a>
       &nbsp;&nbsp;&nbsp;
       <a routerLink="albums">Albums</a>

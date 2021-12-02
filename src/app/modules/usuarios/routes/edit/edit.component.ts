@@ -38,10 +38,6 @@ export class EditComponent implements OnInit, OnDestroy {
         map(params => Number(params.get('id'))),
         switchMap(id => this.findUser(id)))
       .subscribe(user => this.user = user);
-    console.log('estoy')
-    this.observable.pipe(tap(() => console.log('dentro'))).subscribe(result => {
-      console.log(result);
-    })
   }
 
 

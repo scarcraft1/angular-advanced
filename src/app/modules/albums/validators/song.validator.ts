@@ -35,7 +35,6 @@ export function SongValidator(control: AbstractControl): ValidationErrors | null
 })
 export class SongValidatorDirective implements OnInit, Validator {
   ngOnInit() {
-    console.log('validate etiqueta');
   }
   validate(control: AbstractControl): ValidationErrors | null {
     return SongValidator(control);

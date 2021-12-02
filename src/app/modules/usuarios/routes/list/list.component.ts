@@ -1,10 +1,10 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ContentChild, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { HotCounterDirective } from '@shared';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { FilterService } from 'src/app/services';
-import { UserListItemComponent } from '../../components';
+import { UserListItemComponent, UsersFilterComponent } from '../../components';
 import { UsuariosService } from '../../services';
 import { Rol } from '../../types';
 
@@ -51,6 +51,7 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit, AfterCon
 
   ngOnInit(): void {
     this.filterVisible = true;
+    this.filterService.setFilterComponent(UsersFilterComponent);
     this.filterService.setTopic('usuarios');
     combineLatest([
       this.filterService.getFilterForTopicAsync('usuarios'),
@@ -60,12 +61,8 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit, AfterCon
       map(([filter, users]) => filter ? users.filter(i => i.name.startsWith(filter.name)) : users)
     ).subscribe(users => this.usuarios = users);
     setTimeout(() => {
-      console.log(this.filterInput);
-      console.log(this.filterInput2);
       this.filterVisible = false;
       this.cd.detectChanges();
-      console.log(this.filterInput);
-      console.log(this.filterInput2);
     }, 1000);
   }
 
@@ -75,8 +72,6 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit, AfterCon
   }
 
   ngAfterContentInit() {
-    console.log(this.filterInput);
-    console.log(this.filterInput2);
   }
 
   ngAfterViewInit() {
@@ -85,8 +80,6 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit, AfterCon
         setTimeout(() => this.hotCounter?.addClick(), 100);
         this.cd.detectChanges();
       }
-      console.log(this.filterInput);
-      console.log(this.filterInput2);
       // this.hotCounter.bgColor = 'purple';
     }
   }

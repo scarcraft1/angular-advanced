@@ -12,7 +12,6 @@ export class BlinkDirective implements OnInit, OnDestroy {
   constructor(private ref: TemplateRef<any>, private vcr: ViewContainerRef) { }
 
   ngOnInit() {
-    console.log('init blink');
     this.interval$.subscribe(i => {
       if (i % 2) {
         this.vcr.createEmbeddedView(this.ref);
@@ -23,7 +22,6 @@ export class BlinkDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('destroy blink');
     this.destroy$.next();
     this.destroy$.complete();
   }

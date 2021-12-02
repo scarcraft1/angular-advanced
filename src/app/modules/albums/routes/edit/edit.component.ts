@@ -43,7 +43,6 @@ export class EditComponent implements OnInit, OnDestroy {
     (this.f.songs as FormArray).clear();
     this.album?.songs.forEach(i => (this.f.songs as FormArray).push(this.fb.control({ title: '', duration: 0 })));
     this.form.patchValue({...this.album});
-    console.log(this.album);
   }
 
   newSong(value?: string) {
@@ -56,7 +55,6 @@ export class EditComponent implements OnInit, OnDestroy {
 
   guardar() {
     this.service.edit(this.form.value)
-      .pipe(tap(console.log))
       .subscribe(() => { this.router.navigate(['../../'], { relativeTo: this.route }) });
   }
 

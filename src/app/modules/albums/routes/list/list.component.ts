@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { combineLatest, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { FilterService } from 'src/app/services';
+import { AlbumsFilterComponent } from '../../components';
 import { Album } from '../../models';
 import { AlbumsService } from '../../services';
 
@@ -28,6 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading = true;
+    this.filterService.setFilterComponent(AlbumsFilterComponent);
     this.filterService.setTopic('albums');
     combineLatest([
       this.filterService.getFilterForTopicAsync('albums'),

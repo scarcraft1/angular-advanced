@@ -17,7 +17,6 @@ export class HotCounterDirective implements OnInit, OnDestroy {
 
   // @HostListener('click')
   public addClick() {
-    console.log('click');
     this.totalCount++;
     this.bgColor = this.calculateColor(this.totalCount);
   }
@@ -26,7 +25,6 @@ export class HotCounterDirective implements OnInit, OnDestroy {
     fromEvent(this.ref.nativeElement, 'click')
       .pipe(takeUntil(this.destroy$))
       .subscribe($event => {
-        console.log($event);
         this.totalCount++;
         this.addClick();
       })

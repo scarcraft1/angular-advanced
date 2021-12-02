@@ -56,7 +56,6 @@ export class NewComponent implements OnInit, OnDestroy {
 
   guardar() {
     this.service.add(this.form.getRawValue())
-      .pipe(tap(console.log))
       .subscribe(() => { this.router.navigate(['../'], { relativeTo: this.route }) });
   }
 

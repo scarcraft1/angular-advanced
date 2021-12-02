@@ -17,7 +17,6 @@ export class ForInDirective {
   private createView(val: any) {
     if (val && typeof val === 'object') {
       for (const key in val) {
-        console.log('val, key', val, key);
         this.vcr.createEmbeddedView(this.ref, {
           $implicit: { key, value: val[key] },
           appForIn: val[key]
